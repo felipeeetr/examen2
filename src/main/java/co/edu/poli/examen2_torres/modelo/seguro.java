@@ -1,0 +1,5 @@
+package co.edu.poli.examen2_torres.modelo;
+
+public class seguro {
+
+}
