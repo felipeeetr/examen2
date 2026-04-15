@@ -1,0 +1,11 @@
+co\edu\poli\examen2_torres\controlador\ControlFormSeguro.class
+co\edu\poli\examen2_torres\modelo\seguroVida.class
+co\edu\poli\examen2_torres\servicios\DAOseguro.class
+co\edu\poli\examen2_torres\TestConexion.class
+co\edu\poli\examen2_torres\modelo\asegurado.class
+co\edu\poli\examen2_torres\servicios\CRUD.class
+co\edu\poli\examen2_torres\modelo\seguroVehiculo.class
+co\edu\poli\examen2_torres\servicios\ConexionBD.class
+co\edu\poli\examen2_torres\modelo\seguro.class
+co\edu\poli\examen2_torres\vista\App.class
+co\edu\poli\examen2_torres\servicios\DAOasegurado.class
