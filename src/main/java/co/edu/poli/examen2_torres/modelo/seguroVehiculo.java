@@ -4,8 +4,8 @@ public class seguroVehiculo extends seguro {
 
     private String marca;
 
-    public seguroVehiculo(String numero, String fechaExpedicion, boolean estado, asegurado asegurado, String marca) {
-        super(numero, fechaExpedicion, estado, asegurado);
+    public seguroVehiculo(String numero, String fecha_exp, boolean estado, asegurado asegurado, String marca) {
+        super(numero, fecha_exp, estado, asegurado);
         this.marca = marca;
     }
 

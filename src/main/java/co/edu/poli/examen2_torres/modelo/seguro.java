@@ -3,13 +3,13 @@ package co.edu.poli.examen2_torres.modelo;
 public abstract class seguro {
 
     private String numero;
-    private String fechaExpedicion;
+    private String fecha_exp;
     private boolean estado;
     private asegurado asegurado;
 
-    public seguro(String numero, String fechaExpedicion, boolean estado, asegurado asegurado) {
+    public seguro(String numero, String fecha_exp, boolean estado, asegurado asegurado) {
         this.numero = numero;
-        this.fechaExpedicion = fechaExpedicion;
+        this.fecha_exp = fecha_exp;
         this.estado = estado;
         this.asegurado = asegurado;
     }
@@ -22,12 +22,12 @@ public abstract class seguro {
         this.numero = numero;
     }
 
-    public String getFechaExpedicion() {
-        return fechaExpedicion;
+    public String getFechaExp() {
+        return fecha_exp;
     }
 
-    public void setFechaExpedicion(String fechaExpedicion) {
-        this.fechaExpedicion = fechaExpedicion;
+    public void setFechaExp(String fecha_exp) {
+        this.fecha_exp = fecha_exp;
     }
 
     public boolean isEstado() {
@@ -58,6 +58,6 @@ public abstract class seguro {
 
     @Override
     public String toString() {
-        return "numero=" + numero + ", fechaExpedicion=" + fechaExpedicion + ", estado=" + estado + ", asegurado=" + asegurado;
+        return "numero=" + numero + ", fechaExp=" + fecha_exp + ", estado=" + estado + ", asegurado=" + asegurado;
     }
 }

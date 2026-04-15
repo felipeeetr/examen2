@@ -1,11 +1,14 @@
 package co.edu.poli.examen2_torres.servicios;
 
-import co.edu.poli.examen2_torres.modelo.*;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
+
+import co.edu.poli.examen2_torres.modelo.asegurado;
+import co.edu.poli.examen2_torres.modelo.seguro;
+import co.edu.poli.examen2_torres.modelo.seguroVehiculo;
+import co.edu.poli.examen2_torres.modelo.seguroVida;
 
 public class DAOseguro implements CRUD<seguro> {
 
@@ -15,32 +18,35 @@ public class DAOseguro implements CRUD<seguro> {
         Connection con = ConexionBD.getInstancia().getConexion();
         con.setAutoCommit(false);
 
-        String SQL_INSERT_SEGURO = "INSERT INTO seguro (numero, fecha_exp, estado, asegurado_id) VALUES (?, ?, ?, ?)";
-
-        PreparedStatement ps = con.prepareStatement(SQL_INSERT_SEGURO);
-        ps.setString(1, s.getNumero());
-        ps.setString(2, s.getFechaExp());
-        ps.setBoolean(3, s.isEstado());
-        ps.setString(4, s.getAsegurado().getId());
-        ps.executeUpdate();
-
-        String SQL_INSERT_VIDA = "INSERT INTO seguro_vida (numero, beneficiario) VALUES (?, ?)";
-        String SQL_INSERT_VEHICULO = "INSERT INTO seguro_vehiculo (numero, marca) VALUES (?, ?)";
-
-        String sql = (s instanceof seguroVida) ? SQL_INSERT_VIDA : SQL_INSERT_VEHICULO;
-
-        ps = con.prepareStatement(sql);
-        ps.setString(1, s.getNumero());
-
-        if (s instanceof seguroVida)
-            ps.setString(2, ((seguroVida) s).getBeneficiario());
-        else
-            ps.setString(2, ((seguroVehiculo) s).getMarca());
-
         try {
+
+            String SQL_INSERT_SEGURO = "INSERT INTO seguro (numero, fecha_exp, estado, asegurado_id) VALUES (?, ?, ?, ?)";
+
+            PreparedStatement ps = con.prepareStatement(SQL_INSERT_SEGURO);
+            ps.setString(1, s.getNumero());
+            ps.setString(2, s.getFechaExp());
+            ps.setBoolean(3, s.isEstado());
+            ps.setString(4, s.getasegurado().getId());
             ps.executeUpdate();
+
+            String SQL_INSERT_VIDA = "INSERT INTO seguro_vida (numero, beneficiario) VALUES (?, ?)";
+            String SQL_INSERT_VEHICULO = "INSERT INTO seguro_vehiculo (numero, marca) VALUES (?, ?)";
+
+            String sql = (s instanceof seguroVida) ? SQL_INSERT_VIDA : SQL_INSERT_VEHICULO;
+
+            ps = con.prepareStatement(sql);
+            ps.setString(1, s.getNumero());
+
+            if (s instanceof seguroVida)
+                ps.setString(2, ((seguroVida) s).getBeneficiario());
+            else
+                ps.setString(2, ((seguroVehiculo) s).getMarca());
+
+            ps.executeUpdate();
+
             con.commit();
             return "✔ " + s.getClass().getSimpleName() + " [" + s.getNumero() + "] guardado correctamente.";
+
         } catch (Exception e) {
             con.rollback();
             return e.getMessage();
@@ -54,7 +60,6 @@ public class DAOseguro implements CRUD<seguro> {
 
         Connection con = ConexionBD.getInstancia().getConexion();
 
-        // 🔹 BUSCAR EN VIDA
         String SQL_SELECT_VIDA =
                 "SELECT s.numero, s.fecha_exp, s.estado, " +
                 "a.id AS asegurado_id, a.nombre AS asegurado_nombre, " +
@@ -78,7 +83,6 @@ public class DAOseguro implements CRUD<seguro> {
             );
         }
 
-        // 🔹 BUSCAR EN VEHICULO
         String SQL_SELECT_VEHICULO =
                 "SELECT s.numero, s.fecha_exp, s.estado, " +
                 "a.id AS asegurado_id, a.nombre AS asegurado_nombre, " +
