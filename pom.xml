@@ -2,7 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>co.edu.poli.examen2_torres</groupId>
     <artifactId>examen2_torres</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -13,38 +15,55 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
+        <junit.version>5.10.2</junit.version>
     </properties>
 
     <!-- DEPENDENCIAS -->
     <dependencies>
-        <!-- JavaFX -->
+
+        <!-- JAVA FX -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>21</version>
         </dependency>
+
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>21</version>
         </dependency>
-        <!-- MySQL -->
+
+        <!-- MYSQL -->
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
             <version>8.4.0</version>
         </dependency>
-        <!-- dotenv -->
+
+        <!-- DOTENV -->
         <dependency>
             <groupId>io.github.cdimascio</groupId>
             <artifactId>dotenv-java</artifactId>
             <version>3.0.0</version>
         </dependency>
+
+        <!-- ======================= -->
+        <!-- JUNIT 5 (ESTO TE FALTABA) -->
+        <!-- ======================= -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <!-- BUILD -->
     <build>
         <plugins>
+
             <!-- COMPILADOR -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -52,12 +71,9 @@
                 <version>3.11.0</version>
                 <configuration>
                     <release>21</release>
-                    <compilerArgs>
-                        <arg>--add-reads</arg>
-                        <arg>co.edu.poli.examen2_torres=ALL-UNNAMED</arg>
-                    </compilerArgs>
                 </configuration>
             </plugin>
+
             <!-- JAVAFX -->
             <plugin>
                 <groupId>org.openjfx</groupId>
@@ -65,12 +81,17 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>co.edu.poli.examen2_torres.vista.App</mainClass>
-                    <options>
-                        <option>--add-reads</option>
-                        <option>co.edu.poli.examen2_torres=ALL-UNNAMED</option>
-                    </options>
                 </configuration>
             </plugin>
+
+            <!-- TESTS (IMPORTANTE PARA JUNIT 5) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+            </plugin>
+
         </plugins>
     </build>
+
 </project>
