@@ -10,28 +10,30 @@
     <version>1.0-SNAPSHOT</version>
     <name>examen2_torres</name>
 
-    <!-- PROPIEDADES -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
+
+        <!-- 🔥 IMPORTANTE: versión única de JavaFX -->
+        <javafx.version>21.0.4</javafx.version>
+
         <junit.version>5.10.2</junit.version>
     </properties>
 
-    <!-- DEPENDENCIAS -->
     <dependencies>
 
-        <!-- JAVA FX -->
+        <!-- 🔥 JAVA FX (CORREGIDO) -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>21</version>
+            <version>${javafx.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>21</version>
+            <version>${javafx.version}</version>
         </dependency>
 
         <!-- MYSQL -->
@@ -48,7 +50,7 @@
             <version>3.0.0</version>
         </dependency>
 
-        <!-- JUNIT 5 -->
+        <!-- JUNIT -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -58,7 +60,6 @@
 
     </dependencies>
 
-    <!-- BUILD -->
     <build>
         <plugins>
 
@@ -72,7 +73,7 @@
                 </configuration>
             </plugin>
 
-            <!-- JAVAFX RUNNER -->
+            <!-- 🔥 JAVAFX MAVEN PLUGIN (CORREGIDO) -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
