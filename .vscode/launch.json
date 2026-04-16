@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "JavaFX App",
+            "request": "launch",
+            "mainClass": "co.edu.poli.examen2_torres.vista.App",
+            "vmArgs": "--module-path \"C:\\JAVA\\javafx-sdk-21.0.10\\lib\" --add-modules javafx.controls,javafx.fxml"
+        },
+        {
+            "type": "java",
+            "name": "TestConexion",
+            "request": "launch",
+            "mainClass": "co.edu.poli.examen2_torres.TestConexion"
+        }
+    ]
+}
