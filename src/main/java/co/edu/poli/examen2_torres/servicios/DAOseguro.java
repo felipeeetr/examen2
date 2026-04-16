@@ -20,7 +20,11 @@ public class DAOseguro implements CRUD<seguro> {
 
         try {
 
-            String SQL_INSERT_SEGURO = "INSERT INTO seguro (numero, fecha_exp, estado, asegurado_id) VALUES (?, ?, ?, ?)";
+            // =========================
+            // INSERT TABLA PADRE
+            // =========================
+            String SQL_INSERT_SEGURO =
+                    "INSERT INTO seguro (numero, fecha_exp, estado, asegurado_id) VALUES (?, ?, ?, ?)";
 
             PreparedStatement ps = con.prepareStatement(SQL_INSERT_SEGURO);
             ps.setString(1, s.getNumero());
@@ -29,27 +33,41 @@ public class DAOseguro implements CRUD<seguro> {
             ps.setString(4, s.getasegurado().getId());
             ps.executeUpdate();
 
-            String SQL_INSERT_VIDA = "INSERT INTO seguro_vida (numero, beneficiario) VALUES (?, ?)";
-            String SQL_INSERT_VEHICULO = "INSERT INTO seguro_vehiculo (numero, marca) VALUES (?, ?)";
+            // =========================
+            // INSERT SUBCLASE
+            // =========================
+            String sql;
 
-            String sql = (s instanceof seguroVida) ? SQL_INSERT_VIDA : SQL_INSERT_VEHICULO;
+            if (s instanceof seguroVida) {
+                sql = "INSERT INTO seguro_vida (numero, beneficiario) VALUES (?, ?)";
+            } else {
+                sql = "INSERT INTO seguro_vehiculo (numero, marca) VALUES (?, ?)";
+            }
 
             ps = con.prepareStatement(sql);
             ps.setString(1, s.getNumero());
 
-            if (s instanceof seguroVida)
+            if (s instanceof seguroVida) {
                 ps.setString(2, ((seguroVida) s).getBeneficiario());
-            else
+            } else {
                 ps.setString(2, ((seguroVehiculo) s).getMarca());
+            }
 
             ps.executeUpdate();
 
             con.commit();
-            return "✔ " + s.getClass().getSimpleName() + " [" + s.getNumero() + "] guardado correctamente.";
+
+            return "✔ " + s.getClass().getSimpleName() +
+                    " [" + s.getNumero() + "] guardado correctamente.";
 
         } catch (Exception e) {
+
+            // 🔥 IMPORTANTE: ver error real
             con.rollback();
-            return e.getMessage();
+            e.printStackTrace();
+
+            throw new RuntimeException("ERROR EN CREATE: " + e.getMessage(), e);
+
         } finally {
             con.setAutoCommit(true);
         }
@@ -60,7 +78,10 @@ public class DAOseguro implements CRUD<seguro> {
 
         Connection con = ConexionBD.getInstancia().getConexion();
 
-        String SQL_SELECT_VIDA =
+        // =========================
+        // BUSCAR SEGURO VIDA
+        // =========================
+        String SQL_VIDA =
                 "SELECT s.numero, s.fecha_exp, s.estado, " +
                 "a.id AS asegurado_id, a.nombre AS asegurado_nombre, " +
                 "v.beneficiario " +
@@ -69,7 +90,7 @@ public class DAOseguro implements CRUD<seguro> {
                 "INNER JOIN asegurado a ON s.asegurado_id = a.id " +
                 "WHERE v.numero = ?";
 
-        PreparedStatement ps = con.prepareStatement(SQL_SELECT_VIDA);
+        PreparedStatement ps = con.prepareStatement(SQL_VIDA);
         ps.setString(1, (String) num);
         ResultSet rs = ps.executeQuery();
 
@@ -78,12 +99,18 @@ public class DAOseguro implements CRUD<seguro> {
                     rs.getString("numero"),
                     rs.getString("fecha_exp"),
                     rs.getBoolean("estado"),
-                    new asegurado(rs.getString("asegurado_id"), rs.getString("asegurado_nombre")),
+                    new asegurado(
+                            rs.getString("asegurado_id"),
+                            rs.getString("asegurado_nombre")
+                    ),
                     rs.getString("beneficiario")
             );
         }
 
-        String SQL_SELECT_VEHICULO =
+        // =========================
+        // BUSCAR SEGURO VEHICULO
+        // =========================
+        String SQL_VEHICULO =
                 "SELECT s.numero, s.fecha_exp, s.estado, " +
                 "a.id AS asegurado_id, a.nombre AS asegurado_nombre, " +
                 "v.marca " +
@@ -92,7 +119,7 @@ public class DAOseguro implements CRUD<seguro> {
                 "INNER JOIN asegurado a ON s.asegurado_id = a.id " +
                 "WHERE v.numero = ?";
 
-        ps = con.prepareStatement(SQL_SELECT_VEHICULO);
+        ps = con.prepareStatement(SQL_VEHICULO);
         ps.setString(1, (String) num);
         rs = ps.executeQuery();
 
@@ -101,7 +128,10 @@ public class DAOseguro implements CRUD<seguro> {
                     rs.getString("numero"),
                     rs.getString("fecha_exp"),
                     rs.getBoolean("estado"),
-                    new asegurado(rs.getString("asegurado_id"), rs.getString("asegurado_nombre")),
+                    new asegurado(
+                            rs.getString("asegurado_id"),
+                            rs.getString("asegurado_nombre")
+                    ),
                     rs.getString("marca")
             );
         }
